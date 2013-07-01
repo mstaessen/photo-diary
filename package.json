@@ -1,0 +1,19 @@
+{
+    "name": "photo-diary-api",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "express": "3.3.0",
+        "mongoose": "~3.6.13"
+    },
+    "devDependencies": {
+        "matchdep": "~0.1.2",
+        "grunt": "~0.4.1",
+        "grunt-express-server": "~0.4.0",
+        "grunt-contrib-livereload": "~0.1.2",
+        "grunt-contrib-watch": "~0.4.4"
+    }
+}
