@@ -1,36 +1,108 @@
-#Cordova/PhoneGap and AngularJS: An introduction
+#PhotoDiary
 
-0.  Initialize your environment
+This is a simple application to illustrate the combined use of PhoneGap/Cordova and AngularJS.
+
+##How this application came to life
+
+0.  Initialize your development environment
 
 	npm install -g phonegap yeoman generator-angular
 
-1.  Create an empty PhoneGap project
+1.  Create an empty PhoneGap project and go to the project folder
 
-    phone gap create photo-diary --name PhotoDiary --id be.mstaessen.photodiary
+    phonegap create photo-diary --name PhotoDiary --id be.mstaessen.photodiary
+    cd photo-diary
 
-2.  Create an empty AngularJS project
+2.  Configure your application for AngularJS
 
-	- Backup original www folder
-    
-    	mv www www.bak
-
-    - Create new www dir and initialize AngularJS project
-
-    	mkdir www && cd $_
-    	yo angular PhoneDiary
-	    	[?] Would you like to include Twitter Bootstrap?: No
-			[?] Would you like to include angular-resource.js?: Yes
-			[?] Would you like to include angular-cookies.js?: No
-			[?] Would you like to include angular-sanitize.js?: No
-
-3.  Setup Project
+	- Create an empty AngularJS project
 	
-	- uninstall es5-shim and json3 because we are not using Internet Explorer
+		yo angular PhotoDiary
+		    	[?] Would you like to include Twitter Bootstrap?: No
+				[?] Would you like to include angular-resource.js?: Yes
+				[?] Would you like to include angular-cookies.js?: No
+				[?] Would you like to include angular-sanitize.js?: No
+    
+    - Move your config.xml file from `www/` to `app/`
+
+    	mv www/config.xml app
+    
+    - Modify Grunt tasks such that the build lands in `www/`
+
+    	var yeomanConfig = {
+        	app: 'app',		// Source folder: app/
+        	dist: 'www' 	// Build folder: www/ (instead of dist/)
+    	};
+
+    	copy.dist.files[0].src: [
+            '*.{ico,png,txt}',
+            '.htaccess',
+            'bower_components/**/*',
+            'images/{,*/}*.{gif,webp,svg}',
+            'styles/fonts/*',
+            'config.xml'	// <-- This file is needed for the cordova/phonegap build tool!
+        ]
+
+3.  Start coding!
+	
+	- Uninstall es5-shim and json3 because we are not using Internet Explorer
 
 		bower uninstall json3 --save
 		bower uninstall es5-shim --save
 
-	- install foundation
-	- install angular-phonegap
+	- Install angular-phonegap and link in `index.html`
 
-4.  Start coding!
+		bower install angular-phonegap --save
+
+	- Import other libraries (currently not in bower) and link in `index.html`
+
+		* Twitter Bootstrap glyphicons (https://github.com/twbs/bootstrap-glyphicons)
+		* Twitter Bootstrap 3 (git clone && make bootstrap)
+
+	- Create 
+
+		* a service for backend integration
+
+			yo angular:service PhotoService
+
+		* a new AngularJS route for taking pictures
+
+			yo angular:route shoot 
+
+		* a directives for the google map
+			
+			yo angular:directive gmap
+
+		* a directive for the back button
+	
+			yo angular:directive back
+
+	- Get crackin'!
+
+		grunt server
+
+4.  Build!
+
+	- Build HTML/JS/CSS files
+	
+		grunt
+
+	- Add Android and iOS as target platforms
+
+		cordova platforms add android ios
+
+	- Build the platforms
+
+		phonegap build android
+		phonegap build ios
+
+	- Run on connected Android device
+
+		phonegap install android
+
+	- Run on iOS device (open Xcode project and deploy from there, restriction due to signing issues)
+
+		open platforms/ios/PhotoDiary.xcodeproj
+
+
+
