@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('PhotoDiaryApp')
-    .directive('gmap', function ($resource, Config) {
+    .directive('gmap', function ($resource, PhotoService) {
         return {
             template: '<div style="background-color: black;"></div>',
             replace: true,
@@ -10,7 +10,6 @@ angular.module('PhotoDiaryApp')
                 center: '='
             },
             link: function postLink($scope, element, attrs) {
-                var Photos = $resource(Config.BASE_URL + '/photos/within/:bounds', {});
                 var markers = [];
                 var lastUpdate = 0;
                 var map = new google.maps.Map(element[0], {
@@ -38,7 +37,7 @@ angular.module('PhotoDiaryApp')
                         markers.forEach(function(marker) {
                             marker.setMap(null);
                         });
-                        var photos = Photos.query({bounds: map.getBounds().toUrlValue()}, function() {
+                        PhotoService.within(map.getBounds(), function(error, photos) {
                             photos.forEach(function(photo) {
                                 if (!markers[photo._id]) {
                                     markers[photo._id] = {
@@ -48,7 +47,7 @@ angular.module('PhotoDiaryApp')
                                             animation: google.maps.Animation.DROP
                                         }),
                                         infoWindow: new google.maps.InfoWindow({
-                                            content: '<h4>' + photo.title + '</h4><img style="max-width: 200px; max-height: 200px;" src="' + Config.BASE_URL + '/uploads/' + photo.filename + '" />'
+                                            content: '<h4>' + photo.title + '</h4><img style="max-width: 200px; max-height: 200px;" src="' + photo.url + '" />'
                                         })
                                     };
                                     markers[photo._id].marker.setMap(map);

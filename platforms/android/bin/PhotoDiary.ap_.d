@@ -83,8 +83,8 @@
 /Users/mstaessen/src/mstaessen/photo-diary/platforms/android/assets/www/bower_components/bootstrap-glyphicons/fonts/glyphiconshalflings-regular.svg \
 /Users/mstaessen/src/mstaessen/photo-diary/platforms/android/assets/www/bower_components/bootstrap-glyphicons/fonts/glyphiconshalflings-regular.ttf \
 /Users/mstaessen/src/mstaessen/photo-diary/platforms/android/assets/www/bower_components/bootstrap-glyphicons/fonts/glyphiconshalflings-regular.woff \
-/Users/mstaessen/src/mstaessen/photo-diary/platforms/android/assets/www/scripts/8573e5ae.scripts.js \
-/Users/mstaessen/src/mstaessen/photo-diary/platforms/android/assets/www/scripts/b01fa2f2.modules.js \
+/Users/mstaessen/src/mstaessen/photo-diary/platforms/android/assets/www/scripts/98067daf.modules.js \
+/Users/mstaessen/src/mstaessen/photo-diary/platforms/android/assets/www/scripts/a9383ec4.scripts.js \
 /Users/mstaessen/src/mstaessen/photo-diary/platforms/android/assets/www/styles/354446b3.main.css \
 /Users/mstaessen/src/mstaessen/photo-diary/platforms/android/assets/www/views/main.html \
 /Users/mstaessen/src/mstaessen/photo-diary/platforms/android/assets/www/views/shoot.html \

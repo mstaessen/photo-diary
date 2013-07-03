@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('PhotoDiaryApp')
-    .controller('ShootCtrl', function ($scope, $location, Geolocation, Camera, PhoneGap, Config) {
+    .controller('ShootCtrl', function ($scope, $location, Geolocation, Camera, PhotoService) {
         Camera.getPicture(function (picture) {
             $scope.$apply(function () {
                 $scope.picture = picture;
@@ -28,34 +28,23 @@ angular.module('PhotoDiaryApp')
         });
 
         $scope.upload = function () {
-            if ($scope.picture && $scope.position) {
-                PhoneGap.ready().then(function() {
-                    $scope.upload = {};
-                    var ft = new FileTransfer();
-                    var options = new FileUploadOptions();
-                    options.fileKey = "photo";
-                    options.fileName = $scope.picture.substr($scope.picture.lastIndexOf('/') + 1);
-                    options.params = {
-                        title: $scope.title,
-                        location: [$scope.position.latitude, $scope.position.longitude].join(',')
-                    };
-                    ft.upload($scope.picture, encodeURI(Config.BASE_URL + '/photos'), function(res) {
+            if ($scope.picture && $scope.position && $scope.title) {
+                $scope.upload = {};
+                PhotoService.upload($scope.picture, $scope.title, $scope.position, function(res) {
+                    $scope.$apply(function() {
+                        $scope.upload = null;
+                        $location.path('/');
+                    });
+                }, function(error) {
+                    $scope.$apply(function() {
+                        $scope.upload = null;
+                    });
+                }, function(progress) {
+                    if (progress.lengthComputable) {
                         $scope.$apply(function() {
-                            $scope.upload = null;
-                            $location.path('/');
+                            $scope.upload.percent = progress.loaded / progress.total * 100 + '%';
                         });
-                    }, function(error) {
-                        $scope.$apply(function() {
-                            $scope.upload = null;
-                        });
-                    }, options);
-                    ft.onprogress = function(evt) {
-                        if (evt.lengthComputable) {
-                            $scope.$apply(function() {
-                                $scope.upload.percent = evt.loaded / evt.total * 100 + '%';
-                            });
-                        }
-                    };
+                    }
                 });
             }
         };
