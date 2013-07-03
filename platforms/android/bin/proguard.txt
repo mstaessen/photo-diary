@@ -1,0 +1,3 @@
+# view AndroidManifest.xml #generated:21
+-keep class be.mstaessen.photodiary.PhotoDiary { <init>(...); }
+
